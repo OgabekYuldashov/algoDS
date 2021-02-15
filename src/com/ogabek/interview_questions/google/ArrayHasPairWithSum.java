@@ -29,6 +29,8 @@ public class ArrayHasPairWithSum {
      * @param array of unsorted integers
      * @param sum the sum that any pair in the array is potentially equal to
      * @return "true" for when the array contains a pair of integers summing up to the sum input, "false" otherwise
+     *
+     * RUNNING TIME: O(n)
      */
     public static boolean hasPairWithSum(int[] array, int sum) {
 
