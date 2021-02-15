@@ -1,6 +1,8 @@
 package com.ogabek.interview_questions.google;
 
 
+import java.util.HashSet;
+
 /**
  * Given an array of integers and a value "sum", return true/false to indicate
  * if the array contains 2 integers that add up to the given "sum" value
@@ -17,8 +19,31 @@ public class ArrayHasPairWithSum {
         // If the result if greater than sum, move the right pointer, else, move the left pointer. Repeat while leftIndex < rightIndex
         // SOLUTION 4. O(n) ASSUMING THE ARRAY IS NOT SORTED: Use a set to store the complementary numbers for each of the numbers
         // encountered in the array. At each iteration, check if the set contains the current number. Return true if it contains, otherwise, false
+
+        int[] data = {1, 2, 4, 4};
+        boolean result = hasPairWithSum(data, 8);
+        System.out.println(result);
     }
 
+    /**
+     * @param array of unsorted integers
+     * @param sum the sum that any pair in the array is potentially equal to
+     * @return "true" for when the array contains a pair of integers summing up to the sum input, "false" otherwise
+     */
+    public static boolean hasPairWithSum(int[] array, int sum) {
+
+        HashSet<Integer> complimentaries = new HashSet<>();
+
+        for (int j : array) {
+            if (complimentaries.contains(j)) {
+                return true;
+            } else {
+                complimentaries.add(sum - j);
+            }
+        }
+
+        return false;
+    }
 
 
 
