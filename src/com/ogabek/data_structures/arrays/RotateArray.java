@@ -19,6 +19,12 @@ public class RotateArray {
         // SOLUTION 2:
         Arrays.stream(rotateByReversing(new int[] {1,2,3,4,5,6,7}, 3))
                 .forEach(System.out::println);
+
+        System.out.println("**********");
+
+        // SOLUTION 3:
+        Arrays.stream(rotateInPlace(new int[] {1,2,3,4,5,6,7}, 3))
+                .forEach(System.out::println);
     }
 
     /**
@@ -79,5 +85,39 @@ public class RotateArray {
             left++;
             right--;
         }
+    }
+
+    /**
+     * The most efficient in term of Time and Space.
+     *
+     * @param nums array of integers
+     * @param k number of clockwise rotations to do
+     * @return array which has been rotated clockwise k times
+     *
+     * TIME COMPLEXITY: O(n)
+     * SPACE COMPLEXITY: O(1)
+     */
+    public static int[] rotateInPlace(int[] nums, int k) {
+        k %= nums.length;   // eliminate excessive rotations
+        int count = 0;  // number of total swaps. Always n number of swaps are made, where n = nums.length
+
+        for (int start = 0; count<nums.length; start++) {   // increment the starting point of cycles
+            int current = start;
+            int prevElem = nums[current];
+
+            // A cycle ends when the last element in the cycle
+            // is inserted in the starting position
+            do {
+                int next = (current + k) % nums.length; // each element is k steps away from its correct location.
+                int temp = nums[next];
+                nums[next] = prevElem;
+                current = next;
+                prevElem = temp;
+
+                count++; // increasing the count each time a swap is made
+            } while (start != current); // we stop the cycle when we're back at the element where we started
+        }
+
+        return nums;
     }
 }
