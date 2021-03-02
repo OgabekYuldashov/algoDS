@@ -65,7 +65,7 @@ public class Stack {
         return size == 0;
     }
 
-    class Node {
+    private class Node {
         private String value;
         private Node next;
 
