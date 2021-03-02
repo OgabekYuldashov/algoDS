@@ -6,7 +6,10 @@ public class Queue {
         queue.enqueue("1");
         queue.enqueue("2");
         queue.enqueue("3");
+        System.out.println("Peek: " + queue.peek());
         try {
+            queue.dequeue();
+            queue.dequeue();
             queue.dequeue();
         } catch (Exception e) {
             e.printStackTrace();
@@ -24,6 +27,10 @@ public class Queue {
         end = null;
     }
 
+    public String peek() {
+        return isEmpty() ? null : start.getValue();
+    }
+
     public void enqueue(String value) {
         Node newNode = new Node(value);
 
@@ -34,8 +41,7 @@ public class Queue {
             return;
         }
 
-        newNode.next = end;
-        end.prev = newNode;
+        end.next = newNode;
         end = newNode;
         size++;
     }
@@ -48,7 +54,7 @@ public class Queue {
             end = null;
 
         String dequeued = start.getValue();
-        start = start.prev;
+        start = start.getNext();
         size--;
         return dequeued;
     }
@@ -63,7 +69,7 @@ public class Queue {
         Node current = start;
         while (current != null) {
             builder.append("\n").append(current.getValue());
-            current = current.getPrev();
+            current = current.getNext();
         }
         System.out.println(builder.toString());
     }
@@ -71,12 +77,10 @@ public class Queue {
     private class Node {
         private String value;
         private Node next;
-        private Node prev;
 
         public Node(String value) {
             this.value = value;
             this.next = null;
-            this.prev = null;
         }
 
         public String getValue() {
@@ -89,10 +93,6 @@ public class Queue {
 
         public Node getNext() {
             return next;
-        }
-
-        public Node getPrev() {
-            return prev;
         }
 
     }
