@@ -1,5 +1,7 @@
 package com.ogabek.data_structures.stacks_queues;
 
+import java.util.EmptyStackException;
+
 public class Stack {
     public static void main(String[] args) {
         Stack stack = new Stack();
@@ -29,7 +31,7 @@ public class Stack {
 
     public String peek(){
         if (isEmpty())
-            return null;
+            throw new EmptyStackException();
         return top.getValue();
     }
 
@@ -48,9 +50,9 @@ public class Stack {
         size++;
     }
 
-    public String pop() throws Exception {
+    public String pop() {
         if (isEmpty())
-            throw new Exception("Cannot pop from empty stack");
+            throw new EmptyStackException();
         if (top == bottom) {
             bottom = null;
         }
