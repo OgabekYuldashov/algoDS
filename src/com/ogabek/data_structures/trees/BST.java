@@ -27,6 +27,9 @@ public class BST {
         System.out.println("These numbers have been deleted, lookup should return null");
         System.out.println("lookup 9: " + bst.lookup(9));
         System.out.println("lookup 170: " + bst.lookup(170));
+
+        System.out.println("\nIn-order traversal:");
+        bst.inorderTraverse(bst.getRoot());
     }
 
     private Node root;
@@ -77,6 +80,14 @@ public class BST {
         }
 
         return null;
+    }
+
+    public void inorderTraverse(Node root) {
+        if (root != null) {
+            inorderTraverse(root.getLeft());
+            System.out.print(root.getValue() + " ");
+            inorderTraverse(root.getRight());
+        }
     }
 
     public Node remove(int value) {
