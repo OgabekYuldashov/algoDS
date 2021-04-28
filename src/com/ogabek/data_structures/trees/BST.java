@@ -23,7 +23,7 @@ public class BST {
         System.out.println("\nIterative In-order traversal:");
         bst.inorderTraverseIterative(bst.getRoot());
 
-        System.out.println("Remove 9: " + bst.remove(9));
+        System.out.println("\nRemove 9: " + bst.remove(9));
         System.out.println("Root: " + bst.getRoot());
         System.out.println("Remove 170: " + bst.remove(170));
         System.out.println("Remove 4: " + bst.remove(4));
