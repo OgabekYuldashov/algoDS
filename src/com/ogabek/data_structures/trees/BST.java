@@ -1,11 +1,14 @@
 package com.ogabek.data_structures.trees;
 
+import java.util.Stack;
+
 public class BST {
     public static void main(String[] args) {
-        //     9
-        //  4     20
-        //1  6  15 170
-
+        //       9
+        //   7      20
+        //1     8     15   170
+        //  5       10 16
+        // 4 6
         BST bst = new BST();
         bst.insert(9);
         bst.insert(4);
@@ -14,6 +17,11 @@ public class BST {
         bst.insert(170);
         bst.insert(15);
         bst.insert(1);
+
+        System.out.println("\nRecursive In-order traversal:");
+        bst.inorderTraverseRecursive(bst.getRoot());
+        System.out.println("\nIterative In-order traversal:");
+        bst.inorderTraverseIterative(bst.getRoot());
 
         System.out.println("Remove 9: " + bst.remove(9));
         System.out.println("Root: " + bst.getRoot());
@@ -28,8 +36,6 @@ public class BST {
         System.out.println("lookup 9: " + bst.lookup(9));
         System.out.println("lookup 170: " + bst.lookup(170));
 
-        System.out.println("\nIn-order traversal:");
-        bst.inorderTraverse(bst.getRoot());
     }
 
     private Node root;
@@ -82,11 +88,39 @@ public class BST {
         return null;
     }
 
-    public void inorderTraverse(Node root) {
+    public void inorderTraverseRecursive(Node root) {
         if (root != null) {
-            inorderTraverse(root.getLeft());
+            inorderTraverseRecursive(root.getLeft());
             System.out.print(root.getValue() + " ");
-            inorderTraverse(root.getRight());
+            inorderTraverseRecursive(root.getRight());
+        }
+    }
+
+    public void inorderTraverseIterative(Node root) {
+        if (root == null) return;
+
+        Stack<Node> stack = new Stack<>();
+        stack.push(root);
+
+        if (root.getLeft() != null) {
+            pushAllLeftChildrenToStack(stack, root);
+        }
+
+        while (!stack.isEmpty()) {
+            Node node = stack.pop();
+            System.out.print(node.getValue() + " ");
+            if (node.getRight() != null) {
+                stack.push(node.getRight());
+                pushAllLeftChildrenToStack(stack, node.getRight());
+            }
+        }
+    }
+
+    private void pushAllLeftChildrenToStack(Stack<Node> stack, Node node) {
+        Node leftNode = node.getLeft();
+        while (leftNode != null) {
+            stack.push(leftNode);
+            leftNode = leftNode.getLeft();
         }
     }
 
