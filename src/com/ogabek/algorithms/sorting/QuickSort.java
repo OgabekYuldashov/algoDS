@@ -31,16 +31,16 @@ public class QuickSort implements SortingAlgorithm {
      * @return the new index of the pivot after partitioning
      */
     private int inPlacePartition(int[] input, int pivotValue, int leftIndex, int rightIndex) {
-        int partitionIndex = leftIndex;
+        int writePointer = leftIndex;
 
         for(int i = leftIndex; i < rightIndex; i++) {
             if(input[i] < pivotValue) {
-                swap(input, i, partitionIndex);
-                partitionIndex++;
+                swap(input, i, writePointer);
+                writePointer++;
             }
         }
-        swap(input, rightIndex, partitionIndex);
-        return partitionIndex;
+        swap(input, rightIndex, writePointer);
+        return writePointer;
     }
 
     private void swap(int[] input, int firstIndex, int secondIndex) {
