@@ -33,7 +33,7 @@ public class CombinationSum {
     public static List<List<Integer>> combinationSum(int[] candidates, int target) {
         List<List<Integer>> result = new ArrayList<>();
         // sorting allows to perform the early breaking of the loop
-        Arrays.sort(candidates);
+        Arrays.sort(candidates);    // Time: O(nlogn)
         combinationSum(candidates, 0, new LinkedList<>(), target, result);
         return result;
     }
