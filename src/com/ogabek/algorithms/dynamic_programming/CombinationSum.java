@@ -2,6 +2,7 @@ package com.ogabek.algorithms.dynamic_programming;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -31,14 +32,13 @@ public class CombinationSum {
 
     public static List<List<Integer>> combinationSum(int[] candidates, int target) {
         List<List<Integer>> result = new ArrayList<>();
-        combinationSum(candidates, 0, new ArrayList<>(), target, result);
+        // sorting allows to perform the early breaking of the loop
+        Arrays.sort(candidates);
+        combinationSum(candidates, 0, new LinkedList<>(), target, result);
         return result;
     }
 
-    private static void combinationSum(int[] candidates, int startIndex, ArrayList<Integer> combinations, int target, List<List<Integer>> result) {
-        // if the target is less than 0, the combination doesn't work
-        if(target < 0) return;
-
+    private static void combinationSum(int[] candidates, int startIndex, LinkedList<Integer> combinations, int target, List<List<Integer>> result) {
         // we found a combination, add a deep copy of it to the result list
         if(target == 0) {
             result.add(new ArrayList<>(combinations));
@@ -47,13 +47,16 @@ public class CombinationSum {
 
         // to avoid permutations, decrease candidates with each loop
         for(int i = startIndex; i < candidates.length; i++) {
-            // give the recursive function a combination with the current candidate in it
-            combinations.add(candidates[i]);
             int newTarget = target - candidates[i];
+            // if the target is less than 0, no need to check the combination as the next candidate is even bigger
+            if(target < 0) break;
+
+            // give the recursive function a combination with the current candidate in it
+            combinations.addLast(candidates[i]);
             combinationSum(candidates, i, combinations, newTarget, result);
 
             // remove the last candidate before the next iteration
-            combinations.remove(combinations.size() - 1);
+            combinations.removeLast();
         }
     }
 
