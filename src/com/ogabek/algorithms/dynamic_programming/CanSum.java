@@ -19,7 +19,7 @@ public class CanSum {
         System.out.println(canSumTabulation(8, new int[] {2,3,5})); // true
 
         long tabulationStartTime = System.nanoTime();
-        System.out.println(canSumMemoized(300, new int[] {7,14})); // false
+        System.out.println(canSumTabulation(300, new int[] {7,14})); // false
         long tabulationEndTime = System.nanoTime();
         System.out.println("Tabulation Execution Time: " + (tabulationEndTime - tabulationStartTime));
 
