@@ -28,8 +28,17 @@ public class SinglyLinkedList {
     public Node head;
     public Node tail;
 
+    public int getSize() {
+        return size;
+    }
+
     public SinglyLinkedList() {
         this.size = 0;
+    }
+
+    public SinglyLinkedList(Node head, int size) {
+        this.head = head;
+        this.size = size;
     }
 
     public void append(int value) {
@@ -39,6 +48,17 @@ public class SinglyLinkedList {
         }
 
         Node newNode = new Node(value);
+        tail.next = newNode;
+        tail = newNode;
+        size++;
+    }
+
+    public void append(Node newNode) {
+        if (head == null) { // the list is empty
+            addInitialNode(newNode);
+            return;
+        }
+
         tail.next = newNode;
         tail = newNode;
         size++;
@@ -117,7 +137,13 @@ public class SinglyLinkedList {
         size++;
     }
 
-    class Node {
+    private void addInitialNode(Node newNode) {
+        head = newNode;
+        tail = newNode;
+        size++;
+    }
+
+    public class Node {
         private int value;
         private Node next;
 
@@ -131,6 +157,14 @@ public class SinglyLinkedList {
 
         public void setValue(int value) {
             this.value = value;
+        }
+
+        public Node getNext() {
+            return next;
+        }
+
+        public void setNext(Node next) {
+            this.next = next;
         }
     }
 
@@ -148,7 +182,7 @@ public class SinglyLinkedList {
         }
         builder.append(" ]");
 
-        System.out.println(builder.toString());
+        System.out.println(builder);
     }
 
 }
