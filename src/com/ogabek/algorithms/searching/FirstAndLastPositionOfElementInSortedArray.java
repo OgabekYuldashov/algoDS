@@ -25,6 +25,10 @@ public class FirstAndLastPositionOfElementInSortedArray {
 
     static int[] nums;
 
+    /**
+     * time: O(3logn) -> O(logn)
+     * space: O(1)
+     */
     public static int[] searchRange(int[] input, int target) {
         nums = input;
 
