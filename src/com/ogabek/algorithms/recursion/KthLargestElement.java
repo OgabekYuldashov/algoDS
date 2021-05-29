@@ -1,19 +1,50 @@
 package com.ogabek.algorithms.recursion;
 
+import java.util.Collections;
+import java.util.PriorityQueue;
 import java.util.Random;
 
 /**
- * Given an integer array nums and an integer k, return the kth largest element in the array.
+ * 215. Kth Largest Element in an Array
  *
+ * Given an integer array nums and an integer k, return the kth largest element in the array.
  * Note that it is the kth largest element in the sorted order, not the kth distinct element.
  *
+ * Input: nums = [3,2,1,5,6,4], k = 2
+ * Output: 5
  */
 public class KthLargestElement {
 
     public static void main(String[] args) {
-        System.out.println();
+        System.out.println(findKthLargest(new int[] {3,2,1,5,6,4}, 2)); // 5
+        System.out.println(findKthLargest(new int[] {3,2,3,1,2,4,5,5,6}, 4)); // 4
+
+        System.out.println(findKthLargestWithHeap(new int[] {3,2,1,5,6,4}, 2)); // 5
+        System.out.println(findKthLargestWithHeap(new int[] {3,2,3,1,2,4,5,5,6}, 4)); // 4
     }
 
+
+    /**
+     * time: O(nlogn)
+     * space: O(n)
+     */
+    public static int findKthLargestWithHeap(int[] nums, int k) {
+        if (k > nums.length || k < 1) throw new RuntimeException("Invalid Input");
+
+        // init a maxHeap using priority queue
+        PriorityQueue<Integer> mQueue = new PriorityQueue<>(Collections.reverseOrder());
+
+        for(int n : nums) {
+            mQueue.add(n);
+        }
+
+        while(k > 1) {
+            mQueue.poll();
+            k--;
+        }
+
+        return mQueue.peek();
+    }
 
     static int[] arr;
 
