@@ -1,4 +1,4 @@
-package com.ogabek.algorithms.arrays;
+package com.ogabek.algorithms.arrays2D;
 
 import java.util.LinkedList;
 import java.util.Queue;
