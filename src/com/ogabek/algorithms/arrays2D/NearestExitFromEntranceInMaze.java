@@ -1,5 +1,8 @@
 package com.ogabek.algorithms.arrays2D;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class NearestExitFromEntranceInMaze {
     public static void main(String[] args) {
         char[][] maze1 = new char[][] {
@@ -9,68 +12,50 @@ public class NearestExitFromEntranceInMaze {
 
         char[][] maze2 = new char[][] {{'.', '+', '.'}};
 
-//        System.out.println(nearestExit(maze1, new int[] {1, 2})); // 1
+        System.out.println(nearestExit(maze1, new int[] {1, 2})); // 1
         System.out.println(nearestExit(maze2, new int[] {0, 2})); // -1
     }
-
-    static short[][] DIRS = new short[][] {
-            {-1, 0},
-            {0,  1},
-            {1,  0},
-            {0, -1}
-    };
 
     public static int nearestExit(char[][] maze, int[] entrance) {
         int rows = maze.length;
         int cols = maze[0].length;
-        int[][] curr = new int[rows][cols];
 
-        for(int r = 0; r < rows; r++) {
-            for(int c = 0; c < cols; c++) {
-                char val = maze[r][c];
-                if(val == '.') {
-                    curr[r][c] = 0;
-                } else {
-                    curr[r][c] = -1;
-                }
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(entrance);
+        maze[entrance[0]][entrance[1]] = 'v'; // mark as visited
+
+        short[][] DIRS = new short[][] {
+                {-1, 0},
+                {0,  1},
+                {1,  0},
+                {0, -1}
+        };
+
+        int steps = 1;
+        int size = queue.size();
+        while(!queue.isEmpty()) {
+            if(size == 0) {
+                steps++;
+                size = queue.size();
             }
-        }
 
-        while(true) {
-            int moves = 0;
-            for(int r = 0; r < rows; r++) {
-                for(int c = 0; c < cols; c++) {
-                    if(curr[r][c] == 0) {// 0, 2
-                        if(r == entrance[0] && c == entrance[1]) continue;
+            int[] cell = queue.poll();
+            size--;
 
-                        boolean isExit = false;
-                        for(short[] dir : DIRS) {
-                            int newRow = r + dir[0]; // 0
-                            int newCol = c + dir[1]; // 3
+            for(short[] dir : DIRS) {
+                int nRow = cell[0] + dir[0];
+                int nCol = cell[1] + dir[1];
 
-                            if(newRow < 0 || newRow >= rows || newCol < 0 || newCol >= cols) { // check if out of bounds
-                                if(newRow != entrance[0] || newCol != entrance[1]) { // check if not equal to the entrance
-                                    isExit = true;
-                                }
-                                continue;
-                            } else if (curr[newRow][newCol] == -1) {
-                                continue;
-                            }
+                if(nRow >= 0 && nRow < rows && nCol >= 0 && nCol < cols && maze[nRow][nCol] == '.') { // within bounds and valid cell
+                    maze[nRow][nCol] = 'v'; // mark as visited
 
-                            int neighbourVal = curr[newRow][newCol];
-
-                            if(neighbourVal > 0 || (newRow == entrance[0] && newCol == entrance[1])) {
-                                curr[r][c] = neighbourVal + 1;
-                                moves++;
-                            }
-                        }
-
-                        if(isExit) return curr[r][c];
+                    if(nRow == 0 || nRow == rows - 1 || nCol == 0 || nCol == cols - 1) { // if the cell is an exit
+                        return steps;
                     }
+
+                    queue.offer(new int[] {nRow, nCol});
                 }
             }
-
-            if(moves == 0) break;
         }
 
         return -1;
