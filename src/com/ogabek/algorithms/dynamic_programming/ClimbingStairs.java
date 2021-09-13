@@ -1,24 +1,26 @@
 package com.ogabek.algorithms.dynamic_programming;
 
 public class ClimbingStairs {
-
-    public int climbStairs(int n) {
-        Integer[] memo = new Integer[n + 1];
-        return climbStairsMemoized(n, memo);
-    }
+    Integer[] memo;
 
     /**
      * time: O(n)
      * space: O(n)
      */
-    private int climbStairsMemoized(int n, Integer[] memo) {
-        if(n == 0) return 1;
-        if(n < 0) return 0;
-        if(memo[n] != null) return memo[n];
+    public int minCostClimbingStairsMemoization(int[] cost) {
+        int n = cost.length;
+        memo = new Integer[n];
 
-        int steps = climbStairsMemoized(n - 1, memo) + climbStairsMemoized(n - 2, memo);
-        memo[n] = steps;
-        return steps;
+        return Math.min(minCost(n - 1, cost), minCost(n - 2, cost));
+    }
+
+    public int minCost(int pos, int[] cost) {
+        if(pos < 0) return 0;
+        if(pos == 0 || pos == 1) return cost[pos];
+        if(memo[pos] != null) return memo[pos];
+
+        memo[pos] = cost[pos] + Math.min(minCost(pos - 1, cost), minCost(pos - 2, cost));
+        return memo[pos];
     }
 
 
@@ -26,17 +28,13 @@ public class ClimbingStairs {
      * time: O(n)
      * space: O(1)
      */
-    public int climbStairsTabulation(int n) {
-        if(n == 1) return 1;
+    public int minCostClimbingStairsTabulation(int[] cost) {
+        int n = cost.length;
 
-        int first = 1;
-        int second = 2;
-
-        for(int i = 3; i <= n; i++) {
-            int temp = first + second;
-            first = second;
-            second = temp;
+        for(int i = 2; i < n; i++) {
+            cost[i] = cost[i] + Math.min(cost[i-1], cost[i-2]);
         }
-        return second;
+
+        return Math.min(cost[n-1], cost[n-2]);
     }
 }
